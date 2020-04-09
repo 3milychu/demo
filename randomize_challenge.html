@@ -84,6 +84,23 @@ section img {
 		height:100%;
 	}
 }
+
+#btn {
+	background-color:black;
+	border-radius: 25px;
+    margin-bottom: 150px;
+    position:absolute;
+    margin-left:85%;
+    width:150px;
+
+}
+
+h3{ 
+color:white;
+font-size: 15px;
+text-align:center;
+}
+
 </style>
 <body>
 <!-- header -->
@@ -96,10 +113,16 @@ section img {
 <h2>Featured</h2>
 </div>
 <hr>
+<br>
+<div id="btn">
+   <h3> Surprise Me </h3>
+</div>
+
 <!-- all -->
 <h2>Browse all</h2>
 <section>
 </section>
+
 
 </body>
 <script type="text/javascript">
@@ -110,33 +133,30 @@ function shuffle(array) {
 
 d3.csv('https://raw.githubusercontent.com/3milychu/demo/master/data.csv')
 .then(function(data){
-	displayFeatured(data[1], '#featured')
-	counter = 0
-	setInterval(function(){
-		if(counter == 4){
-			counter == -1
-		}
-		counter = counter + 1
-		featured = [1,3,4]
-		ref = featured[counter]
-		displayFeatured(data[ref], '#featured')
-	},10000)
+	displayFeatured(data, '#featured')
+	btn= document.querySelector('#btn')
+	btn.onclick= function(){
+		displayFeatured(data, '#featured')
+	}
 	displayAll(data,'section')
 	console.log(random)
+
 })
 .catch(function(error){
 	//console.log(error)
 })
 
-function displayFeatured(featured, location){
+function displayFeatured(data, location){
 	clear('#featured')
-	console.log(featured)
+	shuffle(data)
+	random = data[0]
+	console.log(random)
 	target = document.querySelector(location)
 	div = document.createElement('div')
 	div.setAttribute('class','item')
-	name = featured['name']
-	main_img = featured['cover_img']
-	link = featured['url']
+	name = random['name']
+	main_img = random['cover_img']
+	link = random['url']
 	div.innerHTML="<h1>"+ name + "</h1><img class='main' src='"+ main_img + "'>"
 	target.appendChild(div)
 }
@@ -159,7 +179,9 @@ function clear(location){
 	target.innerHTML=""
 }
 
-
+function myFunction() {
+	document.getElementById("btn").innerHTML = ""; 
+}
 
 </script>
 </html>
